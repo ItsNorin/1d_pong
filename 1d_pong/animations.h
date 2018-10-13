@@ -39,7 +39,7 @@ void wipeRepeat(int times = 3, const int speedMultip = 10) {
 
 // attempts to flash scores, returns true if flashed, otherwise false
 bool flashScores(int scores[2]) {
-  if(millis() - lastFlashTime > ((lastFlashState) ? 80 : 20)) {
+  if(millis() - lastFlashTime > ((lastFlashState) ? 25 : 75)) {
     for (int j = 0; j < scores[0]; j++)
       digitalWrite(LED_BAR_PINS[j], lastFlashState);
     for (int j = 0; j < scores[1]; j++)
