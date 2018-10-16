@@ -1,4 +1,4 @@
-#include "config.h"
+#include "animations.h"
 
 unsigned long timePressedL, timePressedR;
 
@@ -32,16 +32,12 @@ bool pressedR() {
 void waitForBoth() {
   bool wait[2] = {0,0};
   while (!wait[0] || !wait[1]) {
-    if (pressedL()) 
-      wait[P_LEFT] = true;
-    if (pressedR()) 
-      wait[P_RIGHT] = true;
-    for (int i = 0; i < 3; i++) {
-      digitalWrite(LED_BAR_PINS[i], wait[P_LEFT]);
-      digitalWrite(LED_BAR_PINS[19 - i], wait[P_RIGHT]);
-    }
+    if (pressedL()) wait[P_LEFT] = true;
+    if (pressedR()) wait[P_RIGHT] = true;
+    showReady(wait[P_LEFT], wait[P_RIGHT]);
   }
 }
+
 
 
 

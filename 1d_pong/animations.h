@@ -10,8 +10,8 @@ void setAll(bool state = LOW) {
 }
 
 // sets leds from edges to center to given state
-void wipeToCenter(const int rate, const bool state, int amount = LED_BAR_COUNT/2) {
-  for(int i = 0; i < amount; i++) {
+void wipeToCenter(const int rate, const bool state, const int amount = LED_BAR_COUNT/2, const int border = 0) {
+  for(int i = border; i < amount; i++) {
     delay(rate);
     digitalWrite(LED_BAR_PINS[i], state);
     digitalWrite(LED_BAR_PINS[19 - i], state);
@@ -19,8 +19,8 @@ void wipeToCenter(const int rate, const bool state, int amount = LED_BAR_COUNT/2
 }
 
 // sets leds from center to edges to given state
-void wipeFromCenter(const int rate, const bool state, int amount = LED_BAR_COUNT/2) {
-  for(int i = 0; i < amount; i++) {
+void wipeFromCenter(const int rate, const bool state, const int amount = LED_BAR_COUNT/2, const int border = 0) {
+  for(int i = 0; i < amount - border; i++) {
     delay(rate);
     digitalWrite(LED_BAR_PINS[10+i], state);
     digitalWrite(LED_BAR_PINS[9-i], state);
@@ -29,14 +29,20 @@ void wipeFromCenter(const int rate, const bool state, int amount = LED_BAR_COUNT
 
 // wipe back and forth times times with given rate modifier speedMultip 
 void wipeRepeat(int times = 3, const int speedMultip = 10) {
-  setAll(HIGH);
-  for(; times >= 2; times--) { // animate starting
+  for(; times > 1; times--) { // animate starting
     wipeToCenter(times*speedMultip,LOW);
     wipeFromCenter(times*speedMultip-(speedMultip/2),HIGH);
   }
-  wipeToCenter(speedMultip,LOW);
+  wipeToCenter(speedMultip, LOW);
 }
 
+// wipe that represents a game over
+void gameOverWipe() {
+  wipeToCenter(40,HIGH);
+  wipeToCenter(40,LOW);
+  wipeFromCenter(40,HIGH);
+  wipeFromCenter(40,LOW, 10);
+}
 // attempts to flash scores, returns true if flashed, otherwise false
 bool flashScores(int scores[2]) {
   if(millis() - lastFlashTime > ((lastFlashState) ? 25 : 75)) {
@@ -59,4 +65,11 @@ void showScores(int scores[2], int flashes = 7) {
   setAll(LOW);
 }
 
+// show whether players are ready
+void showReady(const bool left, const bool right) {
+  for (int i = 3; i < 10; i++) {
+    digitalWrite(LED_BAR_PINS[i], left);
+    digitalWrite(LED_BAR_PINS[19 - i], right);
+  }
+}
 
