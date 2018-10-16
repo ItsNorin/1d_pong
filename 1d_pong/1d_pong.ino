@@ -51,14 +51,10 @@ void loop() {
   case PLAY: // play a round
     ball.updatePos();
     
-    if(pressedL() && ball.dir == 0)
-      ball.hitLeft();
-
-    if(pressedR() && ball.dir == 1)
-      ball.hitRight();
+    if(pressedL() && ball.dir == 0) ball.hitLeft();
+    if(pressedR() && ball.dir == 1) ball.hitRight();
       
-    if(gameOver) 
-      gameState = GAMEOVER;
+    if(gameOver) gameState = GAMEOVER;
     
     break;
     

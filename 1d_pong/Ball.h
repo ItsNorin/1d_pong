@@ -9,6 +9,7 @@ public:
   bool dir; // direction of ball
   int ballPos; // position of ball on field
   long lastMoveTime; // when ball moved last
+  const int SPEEDS[3] = {FAST, AVG, SLOW};
   
   // reset the ball
   void resetBall(){
@@ -48,41 +49,17 @@ public:
   
   // attempt to hit ball from right side
   void hitRight() {
-    switch(ballPos) {
-    case 19:
+    if(ballPos <= 19 && ballPos >= 17) {
       dir = !dir;
-      ballRate = FAST;
-      break;
-    case 18:
-      dir = !dir;
-      ballRate = AVG;
-      break;
-    case 17:
-      dir = !dir;
-      ballRate = SLOW;
-      break;
-    default:
-      break;
+      ballRate = SPEEDS[19 - ballPos];
     }
   }
   
   // attempt to hit ball from left side
   void hitLeft() {
-    switch(ballPos) {
-    case 0:
+    if(ballPos >= 0 && ballPos <= 2) {
       dir = !dir;
-      ballRate = FAST;
-      break;
-    case 1:
-      dir = !dir;
-      ballRate = AVG;
-      break;
-    case 2:
-      dir = !dir;
-      ballRate = SLOW;
-      break;
-    default:
-      break;
+      ballRate = SPEEDS[ballPos];
     }
   }
 };
