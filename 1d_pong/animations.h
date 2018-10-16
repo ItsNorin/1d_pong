@@ -43,6 +43,7 @@ void gameOverWipe() {
   wipeFromCenter(40,HIGH);
   wipeFromCenter(40,LOW, 10);
 }
+
 // attempts to flash scores, returns true if flashed, otherwise false
 bool flashScores(int scores[2]) {
   if(millis() - lastFlashTime > ((lastFlashState) ? 25 : 75)) {

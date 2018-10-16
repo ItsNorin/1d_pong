@@ -44,6 +44,7 @@ void loop() {
     }
     wipeRepeat();
     ball.resetBall();
+    ball.startMatch();
     skipAwait = gameOver = false;
     gameState = PLAY;
     break;

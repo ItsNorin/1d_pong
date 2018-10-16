@@ -8,7 +8,8 @@ public:
   int ballRate; // milliseconds between each ball movement
   bool dir; // direction of ball
   int ballPos; // position of ball on field
-  long lastMoveTime; // when ball moved last
+  unsigned long lastMoveTime; // when ball moved last
+  unsigned long roundStart;
   const int SPEEDS[3] = {FAST, AVG, SLOW};
   
   // reset the ball
@@ -21,11 +22,21 @@ public:
   Ball() : dir(0) {
     resetBall();
   }
+
+  // start timer to increase speed
+  void startMatch() {
+    roundStart = millis();
+  }
+
+  // get speed increase over time (+1 ms every 5 seconds)
+  int getSpeedMod() {
+    return (millis() - roundStart) / 5000;
+  }
   
   // updates position of ball, also sets game over state
   void updatePos(){
     if (!gameOver) {
-      if (millis() > lastMoveTime + ballRate) { // if enough time has elapsed, move the ball, otherwise make sure its lit
+      if (millis() > lastMoveTime + ballRate - getSpeedMod()) { // if enough time has elapsed, move the ball, otherwise make sure its lit
         lastMoveTime = millis();
         digitalWrite(LED_BAR_PINS[ballPos], LOW);
         
